@@ -25,7 +25,7 @@ internal class P27QP_Controller : IMonitorController
         }
 
         var currentState = ReadCurrentKvmState(device);
-        var toggleKvmTo = currentState == KvmState.USB_B ? KvmState.USB_C : KvmState.USB_C;
+        var toggleKvmTo = currentState == KvmState.USB_B ? KvmState.USB_C : KvmState.USB_B;
 
         var buffer = CreateToggleKvmBuffer(toggleKvmTo);
         var packet = CreateWritePacket(buffer.Length);
