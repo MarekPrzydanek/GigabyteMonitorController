@@ -1,16 +1,16 @@
 ﻿using GigabyteMonitorController.Core.Exceptions;
 using HidLibrary;
-using LibUsbDotNet.LibUsb;
-using LibUsbDotNet.Main;
 
 namespace GigabyteMonitorController.Core.Models.M34WQ;
 
 internal class M34WQ_Controller : IMonitorController
 {
     public MonitorModel Model => Monitors.M34WQ;
-    private ControllerOptions _options { get; }
 
-    public M34WQ_Controller(ControllerOptions options) => _options = options;
+    public M34WQ_Controller(ControllerOptions _)
+    {
+        // There is no need for KVM option, the monitor will always toggle to a second device.
+    }
 
     public bool ToggleKvm()
     {
