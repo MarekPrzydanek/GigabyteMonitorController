@@ -11,7 +11,7 @@ internal class P27QP_Controller : IMonitorController
 
     public P27QP_Controller(ControllerOptions options) => _options = options;
 
-    public Task<bool> ToggleKvmAsync()
+    public bool ToggleKvm()
     {
         using var context = new UsbContext();
 
@@ -32,7 +32,7 @@ internal class P27QP_Controller : IMonitorController
 
         var sent = device.ControlTransfer(packet, buffer, 0, buffer.Length);
 
-        return Task.FromResult(sent == buffer.Length);
+        return sent == buffer.Length;
     }
 
     private UsbSetupPacket CreatePacket(short bufferLength) => new UsbSetupPacket

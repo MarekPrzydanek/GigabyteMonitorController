@@ -10,16 +10,17 @@ var m34wq = factory.M34WQ();
 
 try
 {
-    await Toggle(m34wq);
+    Toggle(p27qp);
+    Toggle(m34wq);
 }
 catch (Exception e)
 {
     Console.WriteLine(e);
 }
 
-async Task Toggle(IMonitorController controller)
+void Toggle(IMonitorController controller)
 {
-    var result = await controller.ToggleKvmAsync();
+    var result = controller.ToggleKvm();
 
-    Console.Write($"[{controller.Model.Name}] Toggle KVM: {(result ? "success" : "fail")}");
+    Console.WriteLine($"[{controller.Model.Name}] Toggle KVM: {(result ? "success" : "fail")}");
 }

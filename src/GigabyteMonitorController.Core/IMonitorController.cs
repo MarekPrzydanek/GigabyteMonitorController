@@ -4,5 +4,5 @@ public interface IMonitorController
 {
     MonitorModel Model { get; }
 
-    Task<bool> ToggleKvmAsync();
+    bool ToggleKvm();
 }

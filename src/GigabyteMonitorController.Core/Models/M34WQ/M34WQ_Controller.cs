@@ -12,32 +12,9 @@ internal class M34WQ_Controller : IMonitorController
 
     public M34WQ_Controller(ControllerOptions options) => _options = options;
 
-    public async Task<bool> ToggleKvmAsync()
+    public bool ToggleKvm()
     {
-        //using var context = new UsbContext();
-
-        //var device = context.Find(x => x.VendorId == Model.VendorId && x.ProductId == Model.ProductId);
-
-        //if (device == null)
-        //{
-        //    throw new DeviceNotFoundException(this);
-        //}
-
-        //if (!device.TryOpen())
-        //{
-        //    throw new FailedToOpenDeviceException(this);
-        //}
-
-        //var buffer = CreateBuffer();
-        ////var packet = CreatePacket(Convert.ToInt16(buffer.Length));
-
-        ////var sent = device.ControlTransfer(packet, buffer, 0, buffer.Length);
-
-        //var writer = device.OpenEndpointWriter(WriteEndpointID.Ep01);
-        //var error = device.(buffer, 0, buffer.Length, 1000, out var sent);
-
-        //return Task.FromResult(sent == buffer.Length);
-
+        
         using var device = HidDevices.Enumerate(Model.VendorId, Model.ProductId).FirstOrDefault();
 
         if (device == null)
@@ -54,21 +31,12 @@ internal class M34WQ_Controller : IMonitorController
 
         var buffer = CreateBuffer();
 
-        var report = new HidReport(buffer.Length, new(buffer, HidDeviceData.ReadStatus.Success));
+        var report = new HidReport(buffer.Length, new HidDeviceData(buffer, HidDeviceData.ReadStatus.Success));
 
-        var result = await device.WriteReportAsync(report);
+        var result = device.WriteReport(report);
 
         return result;
     }
-
-    private UsbSetupPacket CreatePacket(short bufferLength) => new UsbSetupPacket
-    {
-        RequestType = 0x40,
-        Request = 0x9,
-        Value = 0x200,
-        Index = 0,
-        Length = bufferLength
-    };
 
     private byte[] CreateBuffer()
     {
@@ -83,6 +51,13 @@ internal class M34WQ_Controller : IMonitorController
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
-        return buffer;
+
+        /*
+         * For some reason the first byte of buffer is being eaten during send.
+         * Inserting an empty byte in the front fixes the problem. It probably is read as a ReportId.
+         */
+        var fix = new byte[] { 0x0 };
+
+        return fix.Concat(buffer).ToArray();
     }
 }
