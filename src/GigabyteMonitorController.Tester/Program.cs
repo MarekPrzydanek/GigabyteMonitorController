@@ -1,9 +1,6 @@
 ﻿using GigabyteMonitorController.Core;
 
-var factory = new MonitorControllerFactory(() => new()
-{
-    ToggleKvmTo = KvmState.USB_C
-});
+var factory = new MonitorControllerFactory();
 
 var p27qp = factory.P27QP();
 var m34wq = factory.M34WQ();

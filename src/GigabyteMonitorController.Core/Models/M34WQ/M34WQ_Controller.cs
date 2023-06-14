@@ -7,11 +7,10 @@ internal class M34WQ_Controller : IMonitorController
 {
     public MonitorModel Model => Monitors.M34WQ;
 
-    public M34WQ_Controller(ControllerOptions _)
-    {
-        // There is no need for KVM option, the monitor will always toggle to a second device.
-    }
-
+    /*
+     * M34WQ doesn't have a parameter to choose between USB C and USB B.
+     * There is just one request that toggles inputs.
+     */
     public bool ToggleKvm()
     {
         
