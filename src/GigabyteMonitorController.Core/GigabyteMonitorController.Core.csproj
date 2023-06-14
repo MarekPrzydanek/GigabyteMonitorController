@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="hidlibrary" Version="3.3.40" />
+    <PackageReference Include="LibUsbDotNet" Version="3.0.48-alpha" />
+  </ItemGroup>
+
+</Project>
